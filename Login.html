@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQUAD Event - Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <h1>SQUAD Event</h1>
+            <h2>Login</h2>
+            <form id="loginForm" action="/login" method="POST"> <input type="text" id="username" placeholder="Username" aria-label="Username" required> <input type="password" id="password" placeholder="Password" aria-label="Password" required> <div class="options-row">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember-me" name="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+            <p class="create-account-link">
+                Don't have an account? <a href="/register">Create a new account</a>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About us</h3>
+                <a href="/leadership">Leadership</a>
+                <a href="/mission">Our Mission</a>
+                <a href="/vision">Our Vision</a>
+                <a href="/features">Features</a>
+                <a href="/careers">Career At</a>
+                <a href="/blogs">Blogs</a>
+            </div>
+            <div class="footer-column">
+                <h3>Contact us</h3>
+                <p>Mail us at</p>
+                <p><a href="mailto:squadevent@gmail.com">squadevent@gmail.com</a></p>
+                <p>Contact at</p>
+                <p><a href="tel:+9779841258444">9841258444</a></p>
+                <p><a href="tel:+9774448521489">4448521489</a></p>
+                <p><a href="/press">Press</a></p>
+            </div>
+            <div class="footer-column">
+                <h3>Help & Support</h3>
+                <a href="/customer-support">Customer Support</a>
+                <a href="/organizer-support">Organizer Support</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="/conditions">Conditions of Service</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/report-scam">Report a Scam</a>
+            </div>
+            <div class="footer-column">
+                <h3>For regular event updates</h3>
+                <form id="subscribeForm" action="/subscribe" method="POST"> <input type="email" id="subscribeEmail" name="email" placeholder="Enter your mail id here..." aria-label="Email for updates" required> <button type="submit">Subscribe</button>
+                </form>
+                <div class="social-icons">
+                    <a href="https://instagram.com/squadevent"><img src="instagram-icon.png" alt="Instagram"></a>
+                    <a href="https://facebook.com/squadevent"><img src="facebook-icon.png" alt="Facebook"></a>
+                    <a href="https://wa.me/1234567890"><img src="whatsapp-icon.png" alt="WhatsApp"></a>
+                </div>
+            </div>
+        </div>
+        <p class="footer-bottom">© SQUAD Event PVT. LTD. All Rights Reserved.</p>
+    </footer>
+
+    <div id="messageBox" class="message-box">
+        <p id="messageText"></p>
+        <button id="closeMessageBox">OK</button>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
