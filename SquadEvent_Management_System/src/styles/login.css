@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url(Images/download.png);
+    background-image: url("./assets/download.png"); /* Adjust the path as necessary */
     background-position: center;
     background-attachment: fixed;
     color: #333;
@@ -15,8 +15,7 @@ body {
     display: flex;
     flex-direction: column;
 
-  
-    background-size: 100% 90%; 
+    background-size: 100% 90%;
 
 }
 

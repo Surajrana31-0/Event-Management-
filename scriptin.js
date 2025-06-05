@@ -26,4 +26,4 @@ document.querySelector('form').addEventListener('submit', function(e) {
     
    
     alert('Registration successful! (This is a demo)');
-});
+}); 

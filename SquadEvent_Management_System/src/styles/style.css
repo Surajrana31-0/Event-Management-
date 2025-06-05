@@ -47,11 +47,19 @@ header {
 .navbar nav a:hover {
   color: #0033cc;
 }
-.signup-btn {
-  background-color: #0033cc;
+
+
+.signup-btn, .login-btn {
+  background-color: #d2d3d8;
   color: white;
   padding: 5px 10px;
   border-radius: 4px;
+}
+
+.login-btn:hover, .signup-btn:hover {
+  background-color: #c03838;
+  color: white;
+  text-decoration: none;
 }
 
 /* Hero Section */
@@ -304,4 +312,33 @@ footer p.copyright {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"] {
+  border-radius: 5px 0 0 5px; /* Rounded corners on the left */
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-size: 1rem;
+  width: 320px; /* Adjust as needed */
+}
+
+.search-btn {
+  background-color: #0033cc; /* Button color */
+  border: none;
+  border-radius: 0 5px 5px 0; /* Rounded corners on the right */
+  padding: 5px 15px; /* More padding for text */
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #002299;
 }
