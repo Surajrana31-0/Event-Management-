@@ -1,0 +1,87 @@
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Logo styles */
+.header-logo {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif; /* Custom font stack */
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #571fce;
+  letter-spacing: 2px; /* Optional: adds spacing between letters */
+}
+/* Right side: nav links + auth buttons */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Navigation container */
+.header-nav {
+  display: flex;
+  gap: 24px;
+}
+
+/* Navigation links */
+.header-nav a {
+  text-decoration: none;
+  color: #2d2d2d;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.header-nav a:hover {
+  color: #007bff;
+}
+
+/* Auth buttons container */
+.header-auth {
+  display: flex;
+  gap: 16px;
+}
+
+/* Login button */
+.header-login {
+  padding: 8px 20px;
+  border: none;
+  background: none;
+  color: #2d2d2d;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 1.5em;
+}
+
+.header-login:hover {
+  color: #007bff;
+    transform: scale(1.02);
+}
+
+/* Signup button */
+.header-signup {
+  padding: 8px 20px;
+  background: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s;
+   font-size: 1.5em;
+}
+
+.header-signup:hover {
+  background: #0056b3;
+  transform: scale(1.02);
+}
