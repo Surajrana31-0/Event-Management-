@@ -1,18 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 const Footer = () => (
   <footer className="footer">
     <div className="footer-col about">
-      <h3>About Us</h3><br/>
+      <h3>About Us</h3><br />
       <ul className="footer-about-links">
-        <li><a href="/mission">Our Mission</a></li>
-        <li><a href="/vision">Our Vision</a></li>
-        <li><a href="/features">Features</a></li>
+        <li><Link to="/mission">Our Mission</Link></li>
+        <li><Link to="/vision">Our Vision</Link></li>
+        <li><Link to="/features">Features</Link></li>
       </ul>
     </div>
+
     <div className="footer-col contact">
-      <h3>Contact Us</h3><br/>
+      <h3>Contact Us</h3><br />
       <ul className="footer-contact-list">
         <li>
           <span>Email:</span> <a href="mailto:info@squadevent.com">info@squadevent.com</a>
@@ -25,15 +27,17 @@ const Footer = () => (
         </li>
       </ul>
     </div>
+
     <div className="footer-col support">
-      <h3>Help & Support</h3><br/>
+      <h3>Help & Support</h3><br />
       <ul>
-        <li><a href="/faq">FAQ</a></li>
-        <li><a href="/contact">Contact Us</a></li>
-        <li><a href="/terms">Terms of Service</a></li>
-        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><Link to="/faq">FAQ</Link></li>
+        <li><Link to="/contact">Contact Us</Link></li>
+        <li><Link to="/terms">Terms of Service</Link></li>
+        <li><Link to="/privacy">Privacy Policy</Link></li>
       </ul>
     </div>
+
     <div className="footer-col newsletter">
       <h3>Newsletter</h3>
       <form className="newsletter-form" onSubmit={e => e.preventDefault()}>

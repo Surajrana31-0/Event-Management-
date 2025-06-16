@@ -1,6 +1,6 @@
 /* Main footer container: full width, flex layout for columns */
 .footer {
-  width: 100vw;
+  width: 100%;
   position: relative;
   left: 50%;
   margin-left: -50vw;

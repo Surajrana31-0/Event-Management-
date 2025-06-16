@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  width: 100vw;                /* Full viewport width */
+  width: 100%;                /* Full viewport width */
   left: 50%;
   right: 50%;
   margin-left: -50vw;          /* Center the section */
@@ -18,7 +18,7 @@
 
 .hero-image-container {
   position: absolute;
-  width: 100vw;                /* Full viewport width */
+  width: 100%;                /* Full viewport width */
   height: 100%;
   left: 0;
   top: 0;
