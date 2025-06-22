@@ -6,6 +6,7 @@ import Mission from './pages/public/Mission.jsx';
 import './App.css';
 import Feature from "./pages/public/Features.jsx";
 import OurVision from "./pages/public/OurVision.jsx";
+import FAQ from "./pages/public/FAQ.jsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
            <Route path="/mission" element={<Mission />} />
            <Route path="/features" element={<Feature />} />
            <Route path="/vision" element={<OurVision />} />
+           <Route path="/faq" element={<FAQ />} />
       </Routes>
     </Router>
   );
