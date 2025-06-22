@@ -45,3 +45,15 @@
   color: #555;
   line-height: 1.8;
 }
+@media (min-width: 768px) {
+  .vision-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .vision-item {
+    width: 300px;
+    margin: 10px;
+  }
+}
