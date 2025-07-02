@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CurrentEvents.css";
+import "../style/CurrentEvents.css";
 
 // Define the tab names for navigation
 const tabs = ["All", "For You", "Trending", "Interested"];
@@ -13,7 +13,7 @@ const events = [
     date: "2025-06-15",
     time: "19:00",
     location: "Downtown Arena",
-    organizer: "John Doe"
+    organizer: "John Doe" 
   },
   {
     id: 2,

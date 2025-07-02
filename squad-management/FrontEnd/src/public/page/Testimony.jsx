@@ -1,5 +1,5 @@
 import React from "react";
-import "./Testimony.css";
+import "../style/Testimony.css";
 
 // Example testimonies
 const testimonies = [

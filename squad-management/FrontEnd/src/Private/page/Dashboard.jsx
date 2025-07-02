@@ -1,7 +1,6 @@
-import React from "react";
-import "../Private/Dashboard.css";
-import Footer from "../public/Footer";
-import EmptyHeader from "../Authentication/EmptyHeader";
+import Footer from "../../public/page/Footer";
+import EmptyHeader from "../../Authentication/page/EmptyHeader";
+import "../style/Dashboard.css";
 
 const Dashboard = () => {
   return (

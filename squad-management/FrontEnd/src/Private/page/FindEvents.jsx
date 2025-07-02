@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./FindEvents.css";
-import Footer from "../public/Footer";
-import Header from "../public/Header";
+import "../style/FindEvents.css";
+import Footer from "../../public/page/Footer";
+import Header from "../../public/page/Header";
 
 const FindEvent = () => {
   const [query, setQuery] = useState("");

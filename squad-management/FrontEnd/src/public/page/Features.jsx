@@ -1,7 +1,7 @@
 import React from 'react';
-import './Features.css';
-import Header from '../public/Header';
-import Footer from '../public/Footer';
+import '../style/Features.css';
+import Header from './Header';
+import Footer from './Footer';
 
 const Feature = () => {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import "./CreateEvent.css";
+import "../style/CreateEvents.css";
 
 const CreateEvent = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();

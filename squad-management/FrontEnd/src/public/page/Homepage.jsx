@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "./Header.jsx";
 import Hero from "./Hero.jsx";
-import "./Homepage.css";
+import "../style/Homepage.css";
 import CurrentEvents from "./CurrentEvents.jsx";
 import Testimony from "./Testimony.jsx";
 import Footer from "./Footer.jsx"; // Make sure Footer is imported

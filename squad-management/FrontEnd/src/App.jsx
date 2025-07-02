@@ -1,12 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Homepage from './pages/public/Homepage.jsx';
-import Login from './pages/Authentication/Login.jsx';
-import Register from './pages/Authentication/Register.jsx';
-import Mission from './pages/public/Mission.jsx';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import './App.css';
-import Feature from "./pages/public/Features.jsx";
-import Dashboard from "./pages/Private/Dashboard.jsx";
-import FindEvent from "./pages/Private/FindEvents.jsx";
+import Login from './Authentication/page/Login.jsx';
+import Register from './Authentication/page/Register.jsx';
+import Dashboard from "./Private/page/Dashboard.jsx";
+import FindEvent from "./Private/page/FindEvents.jsx";
+import Feature from "./public/page/Features.jsx";
+import Homepage from './public/page/Homepage.jsx';
+import Mission from './public/page/Mission.jsx';
 
 
 function App() {

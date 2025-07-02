@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import Header from "../public/Header";
-import Footer from "../public/Footer";
-import "./Login.css";
+import Header from "../../public/page/Header";
+import Footer from "../../public/page/Footer";
+import "../style/Login.css";
 import EmptyHeader from "./EmptyHeader";
 
 const Login = () => {

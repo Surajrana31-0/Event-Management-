@@ -1,9 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import Header from "../public/Header";
-import Footer from "../public/Footer";
-import "./Register.css";
+import Footer from "../../public/page/Footer";
+import "../style/Register.css";
 import EmptyHeader from "./EmptyHeader";
 
 const Register = () => {

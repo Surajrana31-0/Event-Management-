@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./Hero.css";
+import { useEffect, useState } from "react";
+import "../style/Hero.css";
 
 // Array of carousel images
 const images = [

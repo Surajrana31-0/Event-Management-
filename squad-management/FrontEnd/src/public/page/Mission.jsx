@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import './Mission.css';
+import '../style/Mission.css';
 
 const OurMission = () => {
   return (
