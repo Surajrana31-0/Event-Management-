@@ -14,10 +14,11 @@ const Header = () => {
           <a href="/find-events">Find Events</a>
           <a href="/create-event">Create Event</a>
           <a href="/help-centre">Help Centre</a>
+          <a href ="/dashboard">Dashboard</a>
         </nav>
         <div className="header-auth">
           <a href="/login" className="header-login">Login</a>
-          <a href="/signup" className="header-signup">Sign Up</a>
+          <a href="/register" className="header-signup">Sign Up</a>
         </div>
       </div>
     </header>

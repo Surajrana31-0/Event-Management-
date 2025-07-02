@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Bodwars';
+  src: url('../assets/fonts/BODWARS_DEMO.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 
 .header {
   position: fixed;
@@ -15,11 +23,24 @@
 
 /* Logo styles */
 .header-logo {
-  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif; /* Custom font stack */
+  
+  font-family: 'Bodwars'; /* Custom font stack */
+  text-decoration: none;
   font-weight: bold;
   font-size: 1.5rem;
   color: #571fce;
-  letter-spacing: 2px; /* Optional: adds spacing between letters */
+  letter-spacing: 2px; 
+ 
+}
+.header-logo a{
+  
+  font-family: 'Bodwars'; /* Custom font stack */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #571fce;
+  letter-spacing: 2px; 
+ 
 }
 /* Right side: nav links + auth buttons */
 .header-right {
@@ -39,6 +60,7 @@
   text-decoration: none;
   color: #2d2d2d;
   font-weight: 500;
+  font-size: 1.1rem;
   transition: color 0.2s;
 }
 

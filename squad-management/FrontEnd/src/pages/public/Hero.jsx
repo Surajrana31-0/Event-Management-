@@ -30,7 +30,7 @@ const Hero = () => {
       <div className="hero-content">
         <h1>Discover & Create Amazing Events</h1>
         <p>Join the best events in your city or host your own with ease.</p>
-        <a href="/find-events" className="hero-btn">Book Now</a>
+        <a href="/login" className="hero-btn">Book Now</a>
       </div>
       {/* Carousel navigation dots */}
       <div className="hero-dots">

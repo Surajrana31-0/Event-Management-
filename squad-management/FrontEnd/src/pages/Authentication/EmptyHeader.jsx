@@ -1,28 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import "../public/Header.css";
 
-const EmptyHeader = () => (
-  <header
-    className="empty-header"
-    style={{
-      padding: "18px 32px",
-      background: "linear-gradient(to right,rgb(241, 239, 239),rgb(93, 29, 188))"
-    }}
-  >
-    <Link to="/" className="logo-link" style={{ textDecoration: "none" }}>
-      <span
-        className="logo-text"
-        style={{
-          fontWeight: 700,
-          fontSize: "1.6rem",
-          color: "#571fce",
-          letterSpacing: "1px"
-        }}
-      >
-        SQUAD EVENT
-      </span>
-    </Link>
-  </header>
-);
+const EmptyHeader = () => {
+  return (
+    <header className="header">
+      {/* Logo on the left */}
+      <div className="header-logo">
+       <a href="/"> SQUAD EVENT</a>
+      </div>
+      {/* Navigation links and auth buttons on the right */}
+      <div className="header-right">
+        <nav className="header-nav">
+          <a href="/find-events">Find Events</a>
+          <a href="/create-event">Create Event</a>
+          <a href="/help-centre">Help Centre</a>
+        </nav>
+      
+      </div>
+    </header>
+  );
+};
 
 export default EmptyHeader;
