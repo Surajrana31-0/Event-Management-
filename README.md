@@ -93,8 +93,8 @@ Event-Management--development/
 3. Create a `.env` file in the BackEnd directory:
    ```env
    PORT=3000
-   PGUSER=your_db_user
-   PGPASSWORD=your_db_password
+   PGUSER=db_user
+   PGPASSWORD=db_password
    PGHOST=localhost
    PGDATABASE=EventManagement
    PGPORT=5432
