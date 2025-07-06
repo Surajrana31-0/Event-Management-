@@ -1,5 +1,8 @@
-const User = require('../models/User');
+const User = require('../Models/Users');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 // Generate JWT token
 const generateToken = (userId) => {
@@ -12,41 +15,38 @@ const userController = {
     try {
       const { name, email, password } = req.body;
 
-      // Validation
+      // Basic validation
       if (!name || !email || !password) {
-        return res.status(400).json({
-          success: false,
-          message: 'Please provide all required fields'
-        });
+        return res.status(400).json({ error: 'All fields are required.' });
+      }
+      if (password.length < 6) {
+        return res.status(400).json({ error: 'Password must be at least 6 characters.' });
+      }
+      // Email format validation (simple regex)
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        return res.status(400).json({ error: 'Invalid email format.' });
       }
 
-      // Check if user already exists
+      // Check if user exists
       const existingUser = await User.findByEmail(email);
       if (existingUser) {
-        return res.status(400).json({
-          success: false,
-          message: 'User already exists with this email'
-        });
+        return res.status(409).json({ error: 'Email already exists.' });
       }
 
-      // Create new user
-      const user = await User.create({ name, email, password });
-      const token = generateToken(user.id);
+      // Create user
+      const newUser = await User.create({ name, email, password });
 
-      res.status(201).json({
-        success: true,
-        message: 'User registered successfully',
-        data: {
-          user,
-          token
-        }
-      });
-    } catch (error) {
-      console.error('Registration error:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Server error during registration'
-      });
+      // Generate JWT
+      const token = jwt.sign(
+        { id: newUser.id, name: newUser.name, email: newUser.email },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+
+      res.status(201).json({ token, user: { id: newUser.id, name: newUser.name, email: newUser.email } });
+    } catch (err) {
+      console.error('Register error:', err);
+      res.status(500).json({ error: 'Server error.' });
     }
   },
 
@@ -55,52 +55,32 @@ const userController = {
     try {
       const { email, password } = req.body;
 
-      // Validation
+      // Basic validation
       if (!email || !password) {
-        return res.status(400).json({
-          success: false,
-          message: 'Please provide email and password'
-        });
+        return res.status(400).json({ error: 'All fields are required.' });
       }
 
-      // Find user
       const user = await User.findByEmail(email);
       if (!user) {
-        return res.status(401).json({
-          success: false,
-          message: 'Invalid credentials'
-        });
+        return res.status(401).json({ error: 'Invalid credentials.' });
       }
 
-      // Verify password
-      const isValidPassword = await User.verifyPassword(password, user.password);
-      if (!isValidPassword) {
-        return res.status(401).json({
-          success: false,
-          message: 'Invalid credentials'
-        });
+      const isMatch = await User.verifyPassword(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ error: 'Invalid credentials.' });
       }
 
-      // Generate token
-      const token = generateToken(user.id);
+      // Generate JWT
+      const token = jwt.sign(
+        { id: user.id, name: user.name, email: user.email },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+      );
 
-      // Remove password from response
-      const { password: _, ...userWithoutPassword } = user;
-
-      res.json({
-        success: true,
-        message: 'Login successful',
-        data: {
-          user: userWithoutPassword,
-          token
-        }
-      });
-    } catch (error) {
-      console.error('Login error:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Server error during login'
-      });
+      res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+    } catch (err) {
+      console.error('Login error:', err);
+      res.status(500).json({ error: 'Server error.' });
     }
   },
 

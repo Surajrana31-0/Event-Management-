@@ -4,12 +4,12 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-const { testConnection } = require('./config/database');
-const User = require('./models/User');
-const userRoutes = require('./routes/userRoutes');
+// const { testConnection } = require('./config/database');
+const User = require('./Models/Users');
+const userRoutes = require('./Routes/Routes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Rate limiting
 const limiter = rateLimit({
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/users', userRoutes);
+app.use('/api', userRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -73,7 +73,7 @@ app.use((error, req, res, next) => {
 const startServer = async () => {
   try {
     // Test database connection
-    await testConnection();
+    // await testConnection();
     
     // Create tables
     await User.createTable();
