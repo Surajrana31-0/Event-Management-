@@ -1,7 +1,7 @@
 import React from "react";
-import "../style/Header.css";
+import "../../public/style/Header.css";
 
-const Header = () => {
+const LoginHeader = () => {
   return (
     <header className="header">
       {/* Logo on the left */}
@@ -11,8 +11,8 @@ const Header = () => {
       {/* Navigation links and auth buttons on the right */}
       <div className="header-right">
         <nav className="header-nav">
-          <a href="/login">Find Events</a>
-          <a href="/login">Create Event</a>
+          <a href="/find-events">Find Events</a>
+          <a href="/create-events">Create Event</a>
           <a href="/help-centre">Help Centre</a>
         
         </nav>
@@ -25,4 +25,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default LoginHeader;

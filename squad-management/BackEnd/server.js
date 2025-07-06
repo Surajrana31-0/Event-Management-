@@ -31,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/users', userRoutes);
 
+
 // Health check route
 app.get('/api/health', (req, res) => {
   res.json({
@@ -39,6 +40,9 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+app.use('/api/events', eventRoutes);
+
 
 // Default route
 app.get('/', (req, res) => {

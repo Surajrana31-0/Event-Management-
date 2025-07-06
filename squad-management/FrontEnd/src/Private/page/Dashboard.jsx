@@ -1,5 +1,5 @@
 import Footer from "../../public/page/Footer";
-import EmptyHeader from "../../Authentication/page/EmptyHeader";
+import EmptyHeader from "../../Authentication/page/LoginHeader";
 import "../style/Dashboard.css";
 
 const Dashboard = () => {

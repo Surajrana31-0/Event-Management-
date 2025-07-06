@@ -7,6 +7,7 @@ import FindEvent from "./Private/page/FindEvents.jsx";
 import Feature from "./public/page/Features.jsx";
 import Homepage from './public/page/Homepage.jsx';
 import Mission from './public/page/Mission.jsx';
+import CreateEvent from "./Private/page/CreateEvents.jsx";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
            <Route path="/features" element={<Feature />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/find-events" element={<FindEvent/>}/>
+          <Route path="/create-events" element={<CreateEvent/>}/>
 
       </Routes>
     </Router>

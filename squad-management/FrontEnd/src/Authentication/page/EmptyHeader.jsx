@@ -11,9 +11,7 @@ const EmptyHeader = () => {
       {/* Navigation links and auth buttons on the right */}
       <div className="header-right">
         <nav className="header-nav">
-          <a href="/find-events">Find Events</a>
-          <a href="/create-event">Create Event</a>
-          <a href="/help-centre">Help Centre</a>
+      
         </nav>
       
       </div>

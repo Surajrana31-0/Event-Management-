@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import "../style/CreateEvents.css";
+import LoginHeader from "../../Authentication/page/LoginHeader";
+import Footer from "../../public/page/Footer";
 
 const CreateEvent = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
@@ -12,6 +14,8 @@ const CreateEvent = () => {
   };
 
   return (
+    <>
+    <LoginHeader/><br/><br/><br/>
     <div className="book-event-container">
       <form className="book-event-form" onSubmit={handleSubmit(onSubmit)}>
         <h2>Create an Event</h2>
@@ -113,6 +117,8 @@ const CreateEvent = () => {
         </button>
       </form>
     </div>
+    <Footer/>
+    </>
   );
 };
 
