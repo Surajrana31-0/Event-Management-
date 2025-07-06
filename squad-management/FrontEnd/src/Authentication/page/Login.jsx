@@ -1,40 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import Header from "../../public/page/Header";
+import EmptyHeader from "./EmptyHeader";
 import Footer from "../../public/page/Footer";
 import "../style/Login.css";
-import EmptyHeader from "./EmptyHeader";
+
+// ✅ Use environment variable from Vite
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const Login = () => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm();
+
+  const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    // Handle login logic here
-    console.log("Login data:", data);
-    navigate("/");
+  const onSubmit = async (data) => {
+    setServerError(""); // Reset error
+    try {
+      const res = await fetch(`${API_URL}/users/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(result.error || "Login failed");
+      }
+
+      // Store token and user info
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("user", JSON.stringify(result.user));
+
+      // Navigate to home or dashboard
+      navigate("/dashboard");
+    } catch (err) {
+      setServerError(err.message);
+    }
   };
 
   return (
     <>
       <EmptyHeader />
       <div className="login-container">
-        {/* Left & center: image */}
+        {/* Left image side */}
         <div className="login-image-side">
           <img
             src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
             alt="Event"
           />
         </div>
-        {/* Right: form and text */}
+
+        {/* Right form side */}
         <div className="login-form-side">
-          <div className="login-top-text">
-           SQUAD EVENT
-          </div>
+          <div className="login-top-text">SQUAD EVENT</div>
           <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
             <h2>Login</h2>
-            {/* Email input field */}
+
+            {/* Server error display */}
+            {serverError && <div className="form-error server-error">{serverError}</div>}
+
+            {/* Email */}
             <div className="form-group modern-input">
               <label htmlFor="email">Email</label>
               <input
@@ -46,7 +77,8 @@ const Login = () => {
               />
               {errors.email && <span className="form-error">{errors.email.message}</span>}
             </div>
-            {/* Password input field */}
+
+            {/* Password */}
             <div className="form-group modern-input">
               <label htmlFor="password">Password</label>
               <input
@@ -58,10 +90,13 @@ const Login = () => {
               />
               {errors.password && <span className="form-error">{errors.password.message}</span>}
             </div>
+
             {/* Submit button */}
             <button type="submit" className="login-btn" disabled={isSubmitting}>
               {isSubmitting ? "Logging in..." : "Login"}
             </button>
+
+            {/* Register link */}
             <div className="register-link">
               Don&apos;t have an account? <Link to="/register">Register</Link>
             </div>
