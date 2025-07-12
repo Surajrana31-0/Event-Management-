@@ -2,11 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const eventRoutes = require('./Routes/eventRoute');
+const userRoutes = require('./Routes/Routes');
+
 require('dotenv').config();
 
-// const { testConnection } = require('./config/database');
 const User = require('./Models/Users');
-const userRoutes = require('./Routes/Routes');
+const Event = require('./Models/Events');  // <-- Import Event model
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/users', userRoutes);
-
+app.use('/api/events', eventRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -41,9 +43,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.use('/api/events', eventRoutes);
-
-
 // Default route
 app.get('/', (req, res) => {
   res.json({
@@ -51,7 +50,8 @@ app.get('/', (req, res) => {
     message: 'Welcome to Express API with PostgreSQL',
     endpoints: {
       health: '/api/health',
-      users: '/api/users'
+      users: '/api/users',
+      events: '/api/events'
     }
   });
 });
@@ -76,12 +76,12 @@ app.use((error, req, res, next) => {
 // Initialize database and start server
 const startServer = async () => {
   try {
-    // Test database connection
-    // await testConnection();
-    
-    // Create tables
+    // Optionally test DB connection here
+
+    // Create tables for users and events before starting
     await User.createTable();
-    
+    await Event.createTable();
+
     // Start server
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

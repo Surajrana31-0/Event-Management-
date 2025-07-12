@@ -7,11 +7,33 @@ import Footer from "../../public/page/Footer";
 const CreateEvent = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
-  const onSubmit = (data) => {
-    // Handle event creation logic here
-    console.log("Event data:", data);
-    // You can add API call or navigation here
-  };
+ const onSubmit = async (data) => {
+  try {
+    const token = localStorage.getItem("token"); // only if protected API, otherwise remove this header
+    const response = await fetch("http://localhost:5000/api/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token ? `Bearer ${token}` : undefined, // optional
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert("Event created successfully!");
+      console.log(result);
+      // optionally reset form or redirect here
+    } else {
+      alert(result.message || "Failed to create event.");
+    }
+  } catch (error) {
+    console.error("Error creating event:", error);
+    alert("Server error. Please try again later.");
+  }
+};
+
 
   return (
     <>

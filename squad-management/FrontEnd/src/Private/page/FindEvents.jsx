@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../style/FindEvents.css";
 import Footer from "../../public/page/Footer";
-import Header from "../../public/page/Header";
-
+import LoginHeader from "../../Authentication/page/LoginHeader";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const FindEvent = () => {
@@ -34,7 +33,7 @@ const FindEvent = () => {
 
   return (
     <>
-      <Header />
+      <LoginHeader />
       <br /><br /><br />
       <div className="find-event-container">
         <h1>Find Events</h1>
