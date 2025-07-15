@@ -1,0 +1,83 @@
+/* Main section for testimonies, stacks title and cards vertically */
+.testimony-section {
+  display: flex;
+  flex-direction: column;    /* Stack title and cards vertically */
+  gap: 0;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  margin: 40px 0;            /* Vertical spacing for the section */
+   padding-left: 32px;
+  padding-right: 32px;
+}
+
+/* Individual testimony card styles */
+.testimony-card {
+  position: relative;        /* For overlapping image */
+  background: #333;
+  border-radius: 16px;       /* Rounded corners */
+  box-shadow: 0 4px 24px rgba(87,31,206,0.13); /* Card shadow */
+  width: 320px;              /* Card width */
+  padding: 40px 24px 24px 24px; /* Top padding for overlapping image */
+  margin-top: 40px;          /* Space above each card */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Wrapper for the circular image, positioned to overlap card */
+.testimony-img-wrapper {
+  position: absolute;
+  top: -40px;                /* Pull image above card */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* Circular user image with border and shadow */
+.testimony-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;        /* Makes image circular */
+  border: 4px solid #fff;    /* White border around image */
+  box-shadow: 0 2px 8px rgba(87,31,206,0.10); /* Subtle shadow */
+  object-fit: cover;
+  background: #333;
+}
+
+/* Content area inside the card (testimonial text and name) */
+.testimony-content {
+  margin-top: 32px;          /* Space below the image */
+  text-align: center;
+  background: #333;
+}
+
+/* Testimonial text styling */
+.testimony-text {
+  font-size: 1.05rem;
+  color: #ede9e9;
+  margin-bottom: 16px;
+}
+
+/* Name of the person giving the testimony */
+.testimony-name {
+  font-weight: 700;
+  color: #d8d5e0;
+  font-size: 1rem;
+}
+
+/* Section title styling */
+.testimony-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #571fce;
+  margin-bottom: 32px;
+  margin-left: 8px;
+}
+
+/* Row layout for all testimony cards below the title */
+.testimony-cards-row {
+  display: flex;
+  gap: 32px;                 /* Space between cards */
+  flex-wrap: wrap;           /* Allow cards to wrap on small screens */
+  justify-content: flex-start; /* Align cards to the left */
+}

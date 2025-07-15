@@ -1,0 +1,126 @@
+/* Main footer container: full width, flex layout for columns */
+.footer {
+  width: 100%;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 32px;
+  background: #2d2d2d;
+  color: #fff;
+  padding: 48px 32px 24px 32px;
+  box-sizing: border-box;
+}
+
+/* Each column in the footer */
+.footer-col {
+  flex: 1 1 200px;
+  min-width: 200px;
+  max-width: 300px;
+  margin-bottom: 24px;
+}
+
+/* Footer column headings */
+.footer-col h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+
+/* Unordered lists in columns */
+.footer-col ul,
+.footer-about-links,
+.footer-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* List items in columns */
+.footer-col ul li,
+.footer-about-links li,
+.footer-contact-list li {
+  margin-bottom: 10px;
+  font-size: 0.98rem;
+}
+
+/* Links in columns */
+.footer-col ul li a,
+.footer-about-links li a,
+.footer-contact-list a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+/* Hover effect for all footer links */
+.footer-col ul li a:hover,
+.footer-about-links li a:hover,
+.footer-contact-list a:hover {
+  color: #f8d477;
+}
+
+/* About links specific spacing */
+.footer-about-links {
+  margin: 12px 0 0 0;
+}
+.footer-about-links li {
+  margin-bottom: 8px;
+}
+
+/* Contact list label styling */
+.footer-contact-list li span {
+  font-weight: 600;
+  color: #f8d477;
+  margin-right: 6px;
+}
+
+/* Newsletter form styles */
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: none;
+  font-size: 1rem;
+}
+
+.newsletter-btn {
+  padding: 8px 16px;
+  background: #571fce;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.newsletter-btn:hover {
+  background: #3d1499;
+}
+
+/* Social icons row */
+.footer-socials {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.footer-socials a {
+  font-size: 1.5rem;
+  color: #fff;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.footer-socials a:hover {
+  color: #f8d477;
+}

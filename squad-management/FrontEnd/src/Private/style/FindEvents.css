@@ -1,0 +1,43 @@
+.find-event-container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+
+.find-event-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #2d3748;
+}
+
+.section-block {
+  margin-bottom: 3rem;
+}
+
+.section-block h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2b6cb0;
+}
+
+.upcoming-placeholder,
+.more-placeholder {
+  background-color: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  color: #718096;
+  font-size: 1.1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
