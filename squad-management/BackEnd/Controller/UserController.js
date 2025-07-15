@@ -13,7 +13,7 @@ const userController = {
   // Register new user
   register: async (req, res) => {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password,isAdmin } = req.body;
 
       // Basic validation
       if (!name || !email || !password) {
@@ -34,13 +34,13 @@ const userController = {
       }
 
       // Create user
-      const newUser = await User.create({ name, email, password });
+      const newUser = await User.create({ name, email, password,isAdmin });
 
       // Generate JWT
       const token = jwt.sign(
         { id: newUser.id, name: newUser.name, email: newUser.email },
         JWT_SECRET,
-        { expiresIn: '7d' }
+        { expiresIn: '1d' }
       );
 
       res.status(201).json({ token, user: { id: newUser.id, name: newUser.name, email: newUser.email } });

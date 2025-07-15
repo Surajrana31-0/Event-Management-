@@ -16,6 +16,7 @@ class User {
         password VARCHAR(255) NOT NULL,                -- Hashed password
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-- Auto-filled creation time
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Auto-filled update time
+        isAdmin BOOLEAN DEFAULT FALSE, -- Admin flag (default false)
       )
     `;
     
