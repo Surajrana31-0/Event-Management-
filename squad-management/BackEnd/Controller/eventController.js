@@ -17,4 +17,21 @@ exports.getAllEvents = async (req, res) => {
     console.error("Fetch events error:", err);
     res.status(500).json({ success: false, error: "Server error" });
   }
+
 };
+exports.deleteEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Event.delete(id);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    res.json({ success: true, message: 'Event deleted successfully' });
+  } catch (err) {
+    console.error('Delete event error:', err);
+    res.status(500).json({ success: false, error: 'Server error' });
+  }
+};
+

@@ -52,6 +52,20 @@ class Event {
       throw error;
     }
   }
+  
+static async delete(id) {
+  try {
+    const result = await pool.query(
+      `DELETE FROM events WHERE id = $1 RETURNING *`,
+      [id]
+    );
+    // result.rows will contain deleted rows (should be 1 or 0)
+    return result;
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    throw error;
+  }
+}
 }
 
 module.exports = Event;

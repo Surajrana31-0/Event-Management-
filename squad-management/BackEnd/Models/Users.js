@@ -14,9 +14,9 @@ class User {
         name VARCHAR(100) NOT NULL,                    -- User's name (required)
         email VARCHAR(100) UNIQUE NOT NULL,            -- Unique email (required)
         password VARCHAR(255) NOT NULL,                -- Hashed password
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,-- Auto-filled creation time
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Auto-filled update time
-        isAdmin BOOLEAN DEFAULT FALSE, -- Admin flag (default false)
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-filled creation time
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-filled update time
+        isAdmin BOOLEAN DEFAULT FALSE -- Admin flag (default false)
       )
     `;
     

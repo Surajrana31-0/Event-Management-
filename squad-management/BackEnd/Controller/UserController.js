@@ -192,7 +192,7 @@ const userController = {
   // Get current user profile
   getProfile: async (req, res) => {
     try {
-      const user = await User.findById(req.userId);
+      const user = await User.findById(req.user.id);
       res.json({
         success: true,
         data: user

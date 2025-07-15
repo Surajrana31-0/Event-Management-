@@ -35,6 +35,7 @@ const Login = () => {
 
       // Store token and user info
       localStorage.setItem("token", result.token);
+      localStorage.setItem("userId", result.user.id);
       localStorage.setItem("user", JSON.stringify(result.user));
 
       // Navigate to home or dashboard

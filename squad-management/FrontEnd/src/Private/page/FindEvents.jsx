@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../style/FindEvents.css";
 import Footer from "../../public/page/Footer";
 import LoginHeader from "../../Authentication/page/LoginHeader";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const FindEvent = () => {
@@ -9,11 +11,24 @@ const FindEvent = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
   // Fetch events on component mount
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch(`${API_URL}/events`);
+        const res = await fetch(`${API_URL}/events`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res.status === 401) {
+          // Unauthorized - redirect to login
+          localStorage.removeItem("token");
+          navigate("/login");
+          return;
+        }
         const data = await res.json();
         setEvents(data.events || []);
       } catch (err) {
@@ -23,18 +38,52 @@ const FindEvent = () => {
       }
     };
 
-    fetchEvents();
-  }, []);
+    if (!token) {
+      navigate("/login");
+    } else {
+      fetchEvents();
+    }
+  }, [token, navigate]);
+
+  // Delete event handler
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
+
+    try {
+      const res = await fetch(`${API_URL}/events/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete event");
+      }
+
+      // Update state to remove deleted event
+      setEvents((prevEvents) => prevEvents.filter((event) => event.id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting event. Please try again.");
+      if (err.message.includes("401")) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    }
+  };
 
   // Filter events based on query
-  const filteredEvents = events.filter(event =>
+  const filteredEvents = events.filter((event) =>
     event.event_name.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
     <>
       <LoginHeader />
-      <br /><br /><br />
+      <br />
+      <br />
+      <br />
       <div className="find-event-container">
         <h1>Find Events</h1>
 
@@ -47,14 +96,30 @@ const FindEvent = () => {
             <p>No upcoming events at the moment.</p>
           ) : (
             <div className="event-list">
-              {events.map(event => (
+              {events.map((event) => (
                 <div className="event-card" key={event.id}>
                   <h3>{event.event_name}</h3>
-                  <p><strong>Date:</strong> {event.date}</p>
-                  <p><strong>Time:</strong> {event.time}</p>
-                  <p><strong>Location:</strong> {event.location}</p>
-                  <p><strong>Type:</strong> {event.type}</p>
-                  <p><strong>Price:</strong> Rs. {event.price}</p>
+                  <p>
+                    <strong>Date:</strong> {event.date}
+                  </p>
+                  <p>
+                    <strong>Time:</strong> {event.time}
+                  </p>
+                  <p>
+                    <strong>Location:</strong> {event.location}
+                  </p>
+                  <p>
+                    <strong>Type:</strong> {event.type}
+                  </p>
+                  <p>
+                    <strong>Price:</strong> Rs. {event.price}
+                  </p>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(event.id)}
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
@@ -75,14 +140,30 @@ const FindEvent = () => {
           <div className="event-list">
             {query ? (
               filteredEvents.length > 0 ? (
-                filteredEvents.map(event => (
+                filteredEvents.map((event) => (
                   <div className="event-card" key={event.id}>
                     <h3>{event.event_name}</h3>
-                    <p><strong>Date:</strong> {event.date}</p>
-                    <p><strong>Time:</strong> {event.time}</p>
-                    <p><strong>Location:</strong> {event.location}</p>
-                    <p><strong>Type:</strong> {event.type}</p>
-                    <p><strong>Price:</strong> Rs. {event.price}</p>
+                    <p>
+                      <strong>Date:</strong> {event.date}
+                    </p>
+                    <p>
+                      <strong>Time:</strong> {event.time}
+                    </p>
+                    <p>
+                      <strong>Location:</strong> {event.location}
+                    </p>
+                    <p>
+                      <strong>Type:</strong> {event.type}
+                    </p>
+                    <p>
+                      <strong>Price:</strong> Rs. {event.price}
+                    </p>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(event.id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 ))
               ) : (
