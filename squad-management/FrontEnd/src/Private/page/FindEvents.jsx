@@ -10,6 +10,7 @@ const FindEvent = () => {
   const [query, setQuery] = useState("");
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteDialog, setDeleteDialog] = useState({ open: false, eventId: null });
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -45,10 +46,15 @@ const FindEvent = () => {
     }
   }, [token, navigate]);
 
-  // Delete event handler
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this event?")) return;
+  // Delete event handler (opens dialog)
+  const handleDelete = (id) => {
+    setDeleteDialog({ open: true, eventId: id });
+  };
 
+  // Confirm delete
+  const confirmDelete = async () => {
+    const id = deleteDialog.eventId;
+    setDeleteDialog({ open: false, eventId: null });
     try {
       const res = await fetch(`${API_URL}/events/${id}`, {
         method: "DELETE",
@@ -56,21 +62,27 @@ const FindEvent = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
       if (!res.ok) {
         throw new Error("Failed to delete event");
       }
-
-      // Update state to remove deleted event
       setEvents((prevEvents) => prevEvents.filter((event) => event.id !== id));
     } catch (err) {
-      console.error(err);
       alert("Error deleting event. Please try again.");
       if (err.message.includes("401")) {
         localStorage.removeItem("token");
         navigate("/login");
       }
     }
+  };
+
+  // Cancel delete
+  const cancelDelete = () => {
+    setDeleteDialog({ open: false, eventId: null });
+  };
+
+  // Edit event handler
+  const handleEdit = (id) => {
+    navigate(`/edit-event/${id}`);
   };
 
   // Filter events based on query
@@ -104,12 +116,20 @@ const FindEvent = () => {
                   <div className="event-info-row"><span>Location:</span> {event.location}</div>
                   <div className="event-info-row"><span>Type:</span> {event.type}</div>
                   <div className="event-info-row"><span>Price:</span> <b>Rs. {event.price}</b></div>
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(event.id)}
-                  >
-                    Delete
-                  </button>
+                  <div style={{ display: "flex", flexDirection: "row", gap: "8px", marginTop: 12 }}>
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(event.id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="edit-btn"
+                      onClick={() => handleEdit(event.id)}
+                    >
+                      Edit Event
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -138,12 +158,20 @@ const FindEvent = () => {
                     <div className="event-info-row"><span>Location:</span> {event.location}</div>
                     <div className="event-info-row"><span>Type:</span> {event.type}</div>
                     <div className="event-info-row"><span>Price:</span> <b>Rs. {event.price}</b></div>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(event.id)}
-                    >
-                      Delete
-                    </button>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "8px", marginTop: 12 }}>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(event.id)}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="edit-btn"
+                        onClick={() => handleEdit(event.id)}
+                      >
+                        Edit Event
+                      </button>
+                    </div>
                   </div>
                 ))
               ) : (
@@ -155,6 +183,19 @@ const FindEvent = () => {
           </div>
         </section>
       </div>
+      {/* Delete Confirmation Dialog */}
+      {deleteDialog.open && (
+        <div className="custom-dialog-backdrop">
+          <div className="custom-dialog">
+            <div className="custom-dialog-title error">Delete Event?</div>
+            <div className="custom-dialog-message">Are you sure you want to delete this event?</div>
+            <div style={{ display: "flex", gap: "18px", justifyContent: "center" }}>
+              <button className="custom-dialog-btn danger" onClick={confirmDelete}>Delete Anyway</button>
+              <button className="custom-dialog-btn" onClick={cancelDelete}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   );

@@ -1,0 +1,83 @@
+/* Edit Event Page Styles */
+
+.edit-event-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 80vh;
+  background: #f8f6f0;
+  padding: 48px 0 32px 0;
+}
+
+.edit-event-form {
+  background: #fff;
+  padding: 36px 32px 28px 32px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(87,31,206,0.13);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border: 1.5px solid #ececec;
+  transition: box-shadow 0.2s;
+}
+
+.edit-event-form h2 {
+  margin-bottom: 12px;
+  color: #571fce;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.edit-event-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.edit-event-form label {
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 2px;
+}
+
+.edit-event-form input,
+.edit-event-form select,
+.edit-event-form textarea {
+  padding: 12px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #faf9fd;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.edit-event-form input:focus,
+.edit-event-form select:focus,
+.edit-event-form textarea:focus {
+  border: 1.5px solid #571fce;
+  box-shadow: 0 0 0 2px #ece3ff;
+  background: #fff;
+}
+
+.edit-event-btn {
+  margin-top: 8px;
+  padding: 12px 0;
+  background: linear-gradient(90deg, #571fce 60%, #8f6be8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.08rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(87,31,206,0.08);
+}
+
+.edit-event-btn:disabled {
+  background: #b6a6e6;
+  cursor: not-allowed;
+} 

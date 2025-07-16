@@ -66,6 +66,33 @@ static async delete(id) {
     throw error;
   }
 }
+
+  static async update(id, data) {
+    const {
+      event_name, date, time, organizer, location, type, description, price
+    } = data;
+    try {
+      const result = await pool.query(
+        `UPDATE events SET
+          event_name = $1,
+          date = $2,
+          time = $3,
+          organizer = $4,
+          location = $5,
+          type = $6,
+          description = $7,
+          price = $8,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $9
+        RETURNING *`,
+        [event_name, date, time, organizer, location, type, description, price, id]
+      );
+      return result.rows[0];
+    } catch (error) {
+      console.error('Error updating event:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Event;

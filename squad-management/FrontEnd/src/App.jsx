@@ -11,6 +11,7 @@ import CreateEvent from "./Private/page/CreateEvents.jsx";
 import AdminDashboard from "./Private/page/AdminDashboard.jsx";
 import AllEvents from "./Private/page/AllEvents.jsx";
 import ForgotPassword from "./Authentication/page/ForgotPassword.jsx";
+import EditEvent from "./Private/page/EditEvent.jsx";
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/allevents" element={<AllEvents />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-
+          <Route path="/edit-event/:id" element={<EditEvent />} />
 
 
       </Routes>

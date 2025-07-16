@@ -35,3 +35,17 @@ exports.deleteEvent = async (req, res) => {
   }
 };
 
+exports.updateEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updated = await Event.update(id, req.body);
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+    res.json({ success: true, message: 'Event updated successfully', event: updated });
+  } catch (err) {
+    console.error('Update event error:', err);
+    res.status(500).json({ success: false, message: 'Server error updating event' });
+  }
+};
+

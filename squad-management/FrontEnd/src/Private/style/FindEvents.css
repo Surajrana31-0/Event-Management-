@@ -110,3 +110,36 @@
 .delete-btn:hover {
   background: #c0392b;
 }
+
+.edit-btn {
+  margin-top: 12px;
+  background: linear-gradient(90deg, #4db6ac 60%, #26a69a 100%);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s;
+  margin-left: 8px;
+}
+.edit-btn:hover {
+  background: linear-gradient(90deg, #26a69a 60%, #4db6ac 100%);
+}
+
+.custom-dialog-btn.danger {
+  background: linear-gradient(90deg, #e74c3c 60%, #ff7675 100%);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 32px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(231,76,60,0.08);
+}
+.custom-dialog-btn.danger:hover {
+  background: linear-gradient(90deg, #ff7675 60%, #e74c3c 100%);
+}
