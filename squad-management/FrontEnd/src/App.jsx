@@ -8,6 +8,9 @@ import Feature from "./public/page/Features.jsx";
 import Homepage from './public/page/Homepage.jsx';
 import Mission from './public/page/Mission.jsx';
 import CreateEvent from "./Private/page/CreateEvents.jsx";
+import AdminDashboard from "./Private/page/AdminDashboard.jsx";
+import AllEvents from "./Private/page/AllEvents.jsx";
+import ForgotPassword from "./Authentication/page/ForgotPassword.jsx";
 
 
 function App() {
@@ -22,6 +25,11 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/find-events" element={<FindEvent/>}/>
           <Route path="/create-events" element={<CreateEvent/>}/>
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/allevents" element={<AllEvents />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+
+
 
       </Routes>
     </Router>

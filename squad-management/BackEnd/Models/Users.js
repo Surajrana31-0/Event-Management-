@@ -16,7 +16,7 @@ class User {
         password VARCHAR(255) NOT NULL,                -- Hashed password
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-filled creation time
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-filled update time
-        isAdmin BOOLEAN DEFAULT FALSE -- Admin flag (default false)
+        "isAdmin" BOOLEAN DEFAULT FALSE -- Admin flag (default false)
       )
     `;
     
@@ -30,17 +30,17 @@ class User {
   }
 
   // Register/create a new user
-  static async create({ name, email, password }) {
+  static async create({ name, email, password,isAdmin=false }) {
     const hashedPassword = await bcrypt.hash(password, 10);  // Hash password before storing
     
     const query = `
-      INSERT INTO users (name, email, password)
-      VALUES ($1, $2, $3)
-      RETURNING id, name, email, created_at
+      INSERT INTO users (name, email, password, "isAdmin")
+      VALUES ($1, $2, $3,$4)
+      RETURNING id, name, email,"isAdmin", created_at
     `;
     
     try {
-      const result = await pool.query(query, [name, email, hashedPassword]);
+      const result = await pool.query(query, [name, email, hashedPassword, isAdmin]);
       return result.rows[0];                            // Return inserted user details
     } catch (error) {
       throw error;
@@ -48,16 +48,13 @@ class User {
   }
 
   // Find a user by their email address (used in login)
-  static async findByEmail(email) {
-    const query = 'SELECT * FROM users WHERE email = $1';
-    
-    try {
-      const result = await pool.query(query, [email]);
-      return result.rows[0];                            // Return user if found
-    } catch (error) {
-      throw error;
-    }
-  }
+static async findByEmail(email) {
+  const query = 'SELECT id, name, email, password, "isAdmin" FROM users WHERE email = $1';
+  const result = await pool.query(query, [email]);
+  return result.rows[0];  // This row must include isAdmin
+}
+
+
 
   // Find a user by their ID (used for profile fetch)
   static async findById(id) {

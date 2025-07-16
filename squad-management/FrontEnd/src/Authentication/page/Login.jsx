@@ -5,7 +5,6 @@ import EmptyHeader from "./EmptyHeader";
 import Footer from "../../public/page/Footer";
 import "../style/Login.css";
 
-// ✅ Use environment variable from Vite
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const Login = () => {
@@ -38,8 +37,12 @@ const Login = () => {
       localStorage.setItem("userId", result.user.id);
       localStorage.setItem("user", JSON.stringify(result.user));
 
-      // Navigate to home or dashboard
-      navigate("/dashboard");
+      // Redirect based on isAdmin flag
+      if (result.user.isAdmin) {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err) {
       setServerError(err.message);
     }
@@ -90,6 +93,13 @@ const Login = () => {
                 autoComplete="current-password"
               />
               {errors.password && <span className="form-error">{errors.password.message}</span>}
+
+              {/* Forgot password link */}
+              <div style={{ textAlign: "right", marginTop: "5px" }}>
+                <Link to="/forgot-password" style={{ fontSize: "0.9rem", color: "#3498db" }}>
+                  Forgot Password?
+                </Link>
+              </div>
             </div>
 
             {/* Submit button */}

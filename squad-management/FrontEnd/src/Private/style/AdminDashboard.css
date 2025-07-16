@@ -1,0 +1,72 @@
+/* Layout Container */
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 240px;
+  background-color: #1e293b; /* Dark navy */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+}
+
+.sidebar h2 {
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+  text-align: center;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 1rem;
+}
+
+.sidebar nav {
+  flex-grow: 1;
+}
+
+.sidebar a {
+  display: block;
+  color: #e2e8f0;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  transition: background 0.3s ease;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background-color: #334155;
+}
+
+/* Logout Button */
+.sidebar .logout-btn {
+  margin-top: auto;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.sidebar .logout-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f8fafc;
+  overflow-y: auto;
+}
+
+.main-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
