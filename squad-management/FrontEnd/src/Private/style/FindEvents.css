@@ -13,7 +13,8 @@
 }
 
 .section-block {
-  margin-bottom: 3rem;
+  margin-bottom: 48px;
+  padding: 0 0 8px 0;
 }
 
 .section-block h2 {
@@ -40,4 +41,72 @@
   border: 1px solid #cbd5e0;
   border-radius: 8px;
   margin-bottom: 1.5rem;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #b6a6e6 #f8f6f0;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.event-list > .event-card {
+  flex: 0 0 270px;
+  max-width: 320px;
+}
+
+.modern-card.event-card {
+  min-width: 270px;
+  max-width: 320px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(87,31,206,0.10);
+  padding: 24px 20px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.18s, transform 0.18s;
+  border: 1.5px solid #ececec;
+  position: relative;
+}
+.modern-card.event-card:hover {
+  box-shadow: 0 12px 32px rgba(87,31,206,0.16);
+  transform: translateY(-4px) scale(1.03);
+}
+.event-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #571fce;
+  margin-bottom: 10px;
+}
+.event-info-row {
+  font-size: 1.05rem;
+  color: #333;
+  margin-bottom: 6px;
+  display: flex;
+  gap: 6px;
+}
+.event-info-row span {
+  font-weight: 600;
+  color: #8f6be8;
+}
+.delete-btn {
+  margin-top: 12px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.delete-btn:hover {
+  background: #c0392b;
 }

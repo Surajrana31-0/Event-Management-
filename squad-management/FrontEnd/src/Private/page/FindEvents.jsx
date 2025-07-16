@@ -97,23 +97,13 @@ const FindEvent = () => {
           ) : (
             <div className="event-list">
               {events.map((event) => (
-                <div className="event-card" key={event.id}>
-                  <h3>{event.event_name}</h3>
-                  <p>
-                    <strong>Date:</strong> {event.date}
-                  </p>
-                  <p>
-                    <strong>Time:</strong> {event.time}
-                  </p>
-                  <p>
-                    <strong>Location:</strong> {event.location}
-                  </p>
-                  <p>
-                    <strong>Type:</strong> {event.type}
-                  </p>
-                  <p>
-                    <strong>Price:</strong> Rs. {event.price}
-                  </p>
+                <div className="event-card modern-card" key={event.id}>
+                  <h3 className="event-title">{event.event_name}</h3>
+                  <div className="event-info-row"><span>Date:</span> {event.date}</div>
+                  <div className="event-info-row"><span>Time:</span> {event.time}</div>
+                  <div className="event-info-row"><span>Location:</span> {event.location}</div>
+                  <div className="event-info-row"><span>Type:</span> {event.type}</div>
+                  <div className="event-info-row"><span>Price:</span> <b>Rs. {event.price}</b></div>
                   <button
                     className="delete-btn"
                     onClick={() => handleDelete(event.id)}
@@ -141,23 +131,13 @@ const FindEvent = () => {
             {query ? (
               filteredEvents.length > 0 ? (
                 filteredEvents.map((event) => (
-                  <div className="event-card" key={event.id}>
-                    <h3>{event.event_name}</h3>
-                    <p>
-                      <strong>Date:</strong> {event.date}
-                    </p>
-                    <p>
-                      <strong>Time:</strong> {event.time}
-                    </p>
-                    <p>
-                      <strong>Location:</strong> {event.location}
-                    </p>
-                    <p>
-                      <strong>Type:</strong> {event.type}
-                    </p>
-                    <p>
-                      <strong>Price:</strong> Rs. {event.price}
-                    </p>
+                  <div className="event-card modern-card" key={event.id}>
+                    <h3 className="event-title">{event.event_name}</h3>
+                    <div className="event-info-row"><span>Date:</span> {event.date}</div>
+                    <div className="event-info-row"><span>Time:</span> {event.time}</div>
+                    <div className="event-info-row"><span>Location:</span> {event.location}</div>
+                    <div className="event-info-row"><span>Type:</span> {event.type}</div>
+                    <div className="event-info-row"><span>Price:</span> <b>Rs. {event.price}</b></div>
                     <button
                       className="delete-btn"
                       onClick={() => handleDelete(event.id)}
