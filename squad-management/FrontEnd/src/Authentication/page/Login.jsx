@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import EmptyHeader from "./EmptyHeader";
 import Footer from "../../public/page/Footer";
 import "../style/Login.css";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -15,6 +16,7 @@ const Login = () => {
   } = useForm();
 
   const [serverError, setServerError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -85,13 +87,24 @@ const Login = () => {
             {/* Password */}
             <div className="form-group modern-input">
               <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                {...register("password", { required: "Password is required" })}
-                autoComplete="current-password"
-              />
+              <div className="input-with-icon">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  {...register("password", { required: "Password is required" })}
+                  autoComplete="current-password"
+                />
+                <span
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="icon-eye"
+                  tabIndex={0}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  role="button"
+                >
+                  {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                </span>
+              </div>
               {errors.password && <span className="form-error">{errors.password.message}</span>}
 
               {/* Forgot password link */}

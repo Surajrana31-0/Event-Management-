@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Footer from "../../public/page/Footer";
 import "../style/Register.css";
 import EmptyHeader from "./EmptyHeader";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 // Use Vite env variable for API base URL
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
@@ -18,6 +19,8 @@ const Register = () => {
 
   const navigate = useNavigate();
   const [serverError, setServerError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Watch password field for confirm password validation
   const password = watch("password", "");
@@ -108,33 +111,55 @@ const Register = () => {
               {/* Password */}
               <div className="form-group modern-input">
                 <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="Create a password"
-                  {...register("password", { 
-                    required: "Password is required", 
-                    minLength: { value: 6, message: "Password must be at least 6 characters" } 
-                  })}
-                  autoComplete="new-password"
-                />
+                <div className="input-with-icon">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a password"
+                    {...register("password", { 
+                      required: "Password is required", 
+                      minLength: { value: 6, message: "Password must be at least 6 characters" } 
+                    })}
+                    autoComplete="new-password"
+                  />
+                  <span
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="icon-eye"
+                    tabIndex={0}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    role="button"
+                  >
+                    {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                  </span>
+                </div>
                 {errors.password && <span className="form-error">{errors.password.message}</span>}
               </div>
 
               {/* Confirm Password */}
               <div className="form-group modern-input">
                 <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm your password"
-                  {...register("confirmPassword", {
-                    required: "Please confirm your password",
-                    validate: value =>
-                      value === password || "Passwords do not match"
-                  })}
-                  autoComplete="new-password"
-                />
+                <div className="input-with-icon">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm your password"
+                    {...register("confirmPassword", {
+                      required: "Please confirm your password",
+                      validate: value =>
+                        value === password || "Passwords do not match"
+                    })}
+                    autoComplete="new-password"
+                  />
+                  <span
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="icon-eye"
+                    tabIndex={0}
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    role="button"
+                  >
+                    {showConfirmPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                  </span>
+                </div>
                 {errors.confirmPassword && <span className="form-error">{errors.confirmPassword.message}</span>}
               </div>
 
