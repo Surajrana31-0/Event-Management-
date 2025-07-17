@@ -9,12 +9,14 @@ const { pool } = require('./Database/db');
     await User.createTable();
 
     // Admin user details
-    const adminData = {
-      name: 'Admin',
-      email: 'admin@squadEvent.com',
-      password: 'itsamemario', // Make sure to change or hash this securely in production
-      isAdmin: true
-    };
+const adminData = {
+  name: 'Admin',
+  email: 'admin@squadEvent.com',
+  password: 'itsamemario',
+  isAdmin: true,
+  image_url: 'https://via.placeholder.com/150' // Optional default image
+};
+
 
     // Insert admin user
     const result = await User.create(adminData);

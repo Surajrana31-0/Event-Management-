@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 const LoginHeader = () => {
   const [userName, setUserName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -15,10 +17,11 @@ const LoginHeader = () => {
 
         if (!userId || !token) {
           setUserName("");
+          setImageUrl("");
           return;
         }
 
-        const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+        const response = await fetch(`${backendUrl}/api/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -27,32 +30,49 @@ const LoginHeader = () => {
         if (!response.ok) throw new Error("Failed to fetch user");
 
         const data = await response.json();
-
         const fullName = data.data.fullName || data.data.name || data.data.email || "User";
+
+        const profileImage = data.data.image_url
+          ? backendUrl + data.data.image_url
+          : "";
+
         setUserName(fullName);
+        setImageUrl(profileImage);
       } catch (error) {
         console.error("Failed to fetch user profile:", error);
         setUserName("");
+        setImageUrl("");
       }
     };
 
     fetchUser();
-  }, []);
+  }, [backendUrl]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     setUserName("");
+    setImageUrl("");
+    setDropdownOpen(false);
     navigate("/login");
+  };
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+    setDropdownOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
   };
 
   // Close dropdown if clicked outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
-    };
+    }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -60,52 +80,95 @@ const LoginHeader = () => {
   }, []);
 
   return (
-    <header className="header">
-      <div className="header-logo">SQUAD EVENT</div>
-      <div className="header-right">
-        <nav className="header-nav">
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/find-events">Find Events</Link>
+    <header className="header" style={{ padding: "0.5rem 1rem", borderBottom: "1px solid #ddd" }}>
+      <div className="header-logo" style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+        SQUAD EVENT
+      </div>
+
+      <div
+        className="header-right"
+        style={{ display: "flex", alignItems: "center", marginLeft: "auto" }}
+      >
+        <nav className="header-nav" style={{ marginRight: "1rem" }}>
+          <Link to="/dashboard" style={{ marginRight: "1rem" }}>
+            Dashboard
+          </Link>
+          <Link to="/find-events" style={{ marginRight: "1rem" }}>
+            Find Events
+          </Link>
           <Link to="/create-events">Create Event</Link>
-          <Link to="/help-centre">Help Centre</Link>
         </nav>
 
-        <div className="user-info" ref={dropdownRef} style={{ position: "relative" }}>
-          {userName ? (
+        <div
+          className="user-info"
+          ref={dropdownRef}
+          style={{ position: "relative", display: "flex", alignItems: "center", gap: "0.5rem" }}
+        >
+          {imageUrl ? (
             <>
+              <img
+                src={imageUrl}
+                alt={userName}
+                title={userName}
+                onClick={toggleDropdown}
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                  border: "2px solid #eee",
+                }}
+              />
               <span
-                onClick={() => setDropdownOpen((prev) => !prev)}
-                style={{ cursor: "pointer", userSelect: "none" }}
+                onClick={toggleDropdown}
+                style={{ cursor: "pointer", fontWeight: "bold", userSelect: "none" }}
+                title="User menu"
               >
-                {userName} <span className="dropdown-icon">▼</span>
+                {userName}
               </span>
 
               {dropdownOpen && (
                 <div
+                  className="dropdown-menu"
                   style={{
                     position: "absolute",
+                    top: "calc(100% + 8px)",
                     right: 0,
-                    marginTop: "5px",
                     background: "#fff",
-                    border: "1px solid #ddd",
-                    borderRadius: "4px",
+                    border: "1px solid #ccc",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                    borderRadius: "4px",
                     zIndex: 1000,
-                    minWidth: "120px",
+                    minWidth: "140px",
                   }}
                 >
                   <button
-                    onClick={handleLogout}
+                    onClick={handleProfileClick}
                     style={{
+                      display: "block",
                       width: "100%",
                       padding: "10px",
-                      border: "none",
                       background: "none",
-                      cursor: "pointer",
+                      border: "none",
                       textAlign: "left",
-                      fontSize: "1rem",
+                      cursor: "pointer",
+                      borderBottom: "1px solid #eee",
                     }}
-                    onMouseDown={(e) => e.preventDefault()} // Prevent button from losing focus when clicking
+                  >
+                    Profile
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      padding: "10px",
+                      background: "none",
+                      border: "none",
+                      textAlign: "left",
+                      cursor: "pointer",
+                    }}
                   >
                     Logout
                   </button>
@@ -114,7 +177,13 @@ const LoginHeader = () => {
             </>
           ) : (
             <>
-              <Link to="/login">Login</Link> / <Link to="/register">Register</Link>
+              <Link to="/login" style={{ marginRight: "0.5rem" }}>
+                Login
+              </Link>{" "}
+              /{" "}
+              <Link to="/register" style={{ marginLeft: "0.5rem" }}>
+                Register
+              </Link>
             </>
           )}
         </div>

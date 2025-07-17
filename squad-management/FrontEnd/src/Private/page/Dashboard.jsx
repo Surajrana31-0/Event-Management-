@@ -73,7 +73,7 @@ const Dashboard = () => {
       <EmptyHeader />
       <div className="dashboard-container">
         <div className="dashboard-content">
-          <h1>Welcome Back!</h1>
+          <h1><br/>Welcome Back!</h1>
           <p className="subtext">Manage your events, track participation, and more.</p>
 
           <div className="card-container">

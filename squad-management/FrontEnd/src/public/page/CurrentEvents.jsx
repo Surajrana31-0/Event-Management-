@@ -1,85 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../style/CurrentEvents.css";
 
-// Define the tab names for navigation
-const tabs = ["All", "For You", "Trending", "Interested"];
-
-// Example event data
-const events = [
-  {
-    id: 1,
-    title: "Live Music Night",
-    img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80",
-    date: "2025-06-15",
-    time: "19:00",
-    location: "Downtown Arena",
-    organizer: "John Doe" 
-  },
-  {
-    id: 2,
-    title: "Business Conference",
-    img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80",
-    date: "2025-06-20",
-    time: "09:00",
-    location: "City Expo Center",
-    organizer: "Jane Smith"
-  },
-  {
-    id: 3,
-    title: "Food Festival",
-    img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80",
-    date: "2025-06-18",
-    time: "12:00",
-    location: "Central Park",
-    organizer: "Foodies United"
-  },
-  {
-    id: 4,
-    title: "Nightlife Party",
-    img: "https://images.unsplash.com/photo-1509228468518-c5eeecbff44a?auto=format&fit=crop&w=400&q=80",
-    date: "2025-06-22",
-    time: "22:00",
-    location: "Club Neon",
-    organizer: "Night Owls"
-  }
-];
-
 const CurrentEvents = () => {
-  // State to keep track of the currently active tab
-  const [activeTab, setActiveTab] = useState("All");
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // For demo, show all events for every tab
-  const filteredEvents = events;
+  useEffect(() => {
+    // Adjust backend URL as needed:
+    fetch("http://localhost:5000/api/events")
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          setEvents(data.events);
+        } else {
+          setError("Failed to load events");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading events...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="events-tabs-section">
-      {/* Tab navigation bar */}
-      <div className="events-tabs">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            className={`events-tab${activeTab === tab ? " active" : ""}`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-      {/* Event flashcards */}
+      {/* Heading on top */}
+      <h2 className="events-section-title">Find events near you</h2>
+
+      {/* You can add tabs here if you want */}
       <div className="events-cards-container">
-        {filteredEvents.map(event => (
+        {events.map((event) => (
           <div className="event-card" key={event.id}>
-            <img src={event.img} alt={event.title} className="event-card-img" />
+            {/* Placeholder to keep image space */}
+            <div className="event-card-image-placeholder"></div>
+
             <div className="event-card-body">
               <div className="event-card-header">
-                <h3 className="event-card-title">{event.title}</h3>
+                <h3 className="event-card-title">{event.event_name}</h3>
                 <span className="event-card-menu">&#8942;</span>
               </div>
               <div className="event-card-info">
-                <br/><br/><div> {event.date}</div>
-                <div> {event.time}</div>
-                <div>{event.location}</div><br/>
-                <div><strong>{event.organizer}</strong></div>
+                <div>Date: {new Date(event.date).toLocaleDateString()}</div>
+                <div>Time: {event.time}</div>
+                <div>Location: {event.location}</div>
+                <div><strong>Organizer: {event.organizer}</strong></div>
+                <div>Price: ${event.price}</div>
                 <button className="event-card-btn">Join Now</button>
               </div>
             </div>
