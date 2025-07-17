@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const eventRoutes = require('./Routes/eventRoute');
 const userRoutes = require('./Routes/Routes');
+const path = require('path');
+
 
 require('dotenv').config();
 
@@ -33,6 +35,10 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
+
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Health check route
 app.get('/api/health', (req, res) => {

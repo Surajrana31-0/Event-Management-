@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import Footer from "../../public/page/Footer";
@@ -6,7 +6,6 @@ import "../style/Register.css";
 import EmptyHeader from "./EmptyHeader";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
-// Use Vite env variable for API base URL
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const Register = () => {
@@ -21,31 +20,45 @@ const Register = () => {
   const [serverError, setServerError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [preview, setPreview] = useState(null);
 
-  // Watch password field for confirm password validation
   const password = watch("password", "");
+  const imageFile = watch("image");
+
+  // Preview selected image
+  useEffect(() => {
+    if (imageFile && imageFile[0]) {
+      const url = URL.createObjectURL(imageFile[0]);
+      setPreview(url);
+
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPreview(null);
+    }
+  }, [imageFile]);
 
   const onSubmit = async (data) => {
     setServerError("");
     try {
-      // Send registration data to backend
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      if (data.image && data.image[0]) {
+        formData.append("image", data.image[0]);
+      }
+
       const res = await fetch(`${API_URL}/users/register`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password
-        })
+        body: formData,
       });
 
-      const result = await res.json().catch(() => ({}));
+      const result = await res.json();
 
       if (!res.ok) {
         throw new Error(result.error || "Registration failed");
       }
 
-      // On success, redirect to login page
       navigate("/login");
     } catch (err) {
       setServerError(err.message);
@@ -57,15 +70,12 @@ const Register = () => {
       <EmptyHeader />
       <div className="body-container">
         <div className="register-container">
-          {/* Left image */}
           <div className="register-image-side">
             <img
               src="https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80"
               alt="Register Event"
             />
           </div>
-
-          {/* Right form */}
           <div className="register-form-side">
             <div className="register-top-text">
               Create your account to join Squad Event!
@@ -73,10 +83,8 @@ const Register = () => {
             <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
               <h2>Register</h2>
 
-              {/* Server error */}
               {serverError && <div className="form-error server-error">{serverError}</div>}
 
-              {/* Full Name */}
               <div className="form-group modern-input">
                 <label htmlFor="name">Full Name</label>
                 <input
@@ -89,7 +97,6 @@ const Register = () => {
                 {errors.name && <span className="form-error">{errors.name.message}</span>}
               </div>
 
-              {/* Email */}
               <div className="form-group modern-input">
                 <label htmlFor="email">Email</label>
                 <input
@@ -108,7 +115,24 @@ const Register = () => {
                 {errors.email && <span className="form-error">{errors.email.message}</span>}
               </div>
 
-              {/* Password */}
+              {/* Image Upload */}
+              <div className="form-group modern-input">
+                <label htmlFor="image">Profile Image</label>
+                <input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  {...register("image")}
+                />
+                {preview && (
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    style={{ maxWidth: "150px", marginTop: "10px", borderRadius: "8px" }}
+                  />
+                )}
+              </div>
+
               <div className="form-group modern-input">
                 <label htmlFor="password">Password</label>
                 <div className="input-with-icon">
@@ -135,7 +159,6 @@ const Register = () => {
                 {errors.password && <span className="form-error">{errors.password.message}</span>}
               </div>
 
-              {/* Confirm Password */}
               <div className="form-group modern-input">
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <div className="input-with-icon">
@@ -163,12 +186,10 @@ const Register = () => {
                 {errors.confirmPassword && <span className="form-error">{errors.confirmPassword.message}</span>}
               </div>
 
-              {/* Submit button */}
               <button type="submit" className="register-btn" disabled={isSubmitting}>
                 {isSubmitting ? "Registering..." : "Register"}
               </button>
 
-              {/* Login link */}
               <div className="login-link">
                 Already have an account? <Link to="/login">Login</Link>
               </div>

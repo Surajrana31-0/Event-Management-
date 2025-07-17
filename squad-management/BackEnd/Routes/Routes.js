@@ -1,20 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../Controller/UserController');
+const { userController, upload } = require('../Controller/UserController');
 const authMiddleware = require('../Middleware/auth');
 
-// PUBLIC ROUTES
-router.post('/register', userController.register);
-router.post('/login', userController.login);
+// Use multer middleware here for image upload
+router.post('/register', upload.single('image'), userController.register);
+router.put('/:id', authMiddleware, upload.single('image'), userController.updateUser);
 
-// PROTECTED ROUTES
+// Other routes
+router.post('/login', userController.login);
 router.get('/profile', authMiddleware, userController.getProfile);
-router.get('/private', authMiddleware, (req, res) => {
-  res.json({ message: 'You are authenticated!', user: req.user });
-});
 router.get('/', authMiddleware, userController.getAllUsers);
 router.get('/:id', authMiddleware, userController.getUserById);
-router.put('/:id', authMiddleware, userController.updateUser);
 router.delete('/:id', authMiddleware, userController.deleteUser);
 
 router.post("/forgot-password", userController.forgotPassword);

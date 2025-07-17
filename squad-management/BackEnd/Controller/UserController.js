@@ -3,18 +3,33 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const transporter = require('../mailer');
+const multer = require('multer');
+const path = require('path');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 const resetTokens = {};
 
-// JWT helper
+// JWT helper to generate token
 const generateToken = (userId) => {
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '24h' });
 };
 
+// Multer setup for storing uploaded images in /uploads folder
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '..', 'uploads')); // uploads folder at project root
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+  }
+});
+const upload = multer({ storage });
+
 const userController = {
-  // Register
+  // Register - accepts image file (field name 'image')
   register: async (req, res) => {
     try {
       const { name, email, password, isAdmin } = req.body;
@@ -34,7 +49,10 @@ const userController = {
         return res.status(409).json({ error: 'Email already exists.' });
       }
 
-      const newUser = await User.create({ name, email, password, isAdmin });
+      // Save image path or null if no file
+      const image_url = req.file ? `/uploads/${req.file.filename}` : null;
+
+      const newUser = await User.create({ name, email, password, image_url, isAdmin });
 
       const token = generateToken(newUser.id);
 
@@ -44,6 +62,7 @@ const userController = {
           id: newUser.id,
           name: newUser.name,
           email: newUser.email,
+          image_url: newUser.image_url,
           isAdmin: newUser.isAdmin,
         },
       });
@@ -88,6 +107,7 @@ const userController = {
           id: user.id,
           name: user.name,
           email: user.email,
+          image_url: user.image_url,
           isAdmin: user.isAdmin,
         },
       });
@@ -135,34 +155,32 @@ const userController = {
       return res.status(500).json({ error: 'Server error' });
     }
   },
+
   resetPassword: async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
+    const { token } = req.params;
+    const { password } = req.body;
 
-  try {
-    // Find matching token from memory (demo only)
-    const userId = Object.keys(resetTokens).find((id) => resetTokens[id].token === token);
-    if (!userId || resetTokens[userId].expires < Date.now()) {
-      return res.status(400).json({ error: "Invalid or expired token" });
+    try {
+      const userId = Object.keys(resetTokens).find((id) => resetTokens[id].token === token);
+      if (!userId || resetTokens[userId].expires < Date.now()) {
+        return res.status(400).json({ error: "Invalid or expired token" });
+      }
+
+      if (!password || password.length < 6) {
+        return res.status(400).json({ error: "Password must be at least 6 characters" });
+      }
+
+      const hashed = await bcrypt.hash(password, 10);
+      await User.update(userId, { password: hashed });
+
+      delete resetTokens[userId];
+
+      res.json({ success: true, message: "Password has been reset" });
+    } catch (err) {
+      console.error("Reset password error:", err);
+      res.status(500).json({ error: "Server error" });
     }
-
-    // Validate password
-    if (!password || password.length < 6) {
-      return res.status(400).json({ error: "Password must be at least 6 characters" });
-    }
-
-    const hashed = await bcrypt.hash(password, 10);
-    await User.update(userId, { password: hashed });
-
-    delete resetTokens[userId];
-
-    res.json({ success: true, message: "Password has been reset" });
-  } catch (err) {
-    console.error("Reset password error:", err);
-    res.status(500).json({ error: "Server error" });
-  }
-}
-,
+  },
 
   // Get all users
   getAllUsers: async (req, res) => {
@@ -190,16 +208,21 @@ const userController = {
     }
   },
 
-  // Update user
+  // Update user (accepts optional image upload with field 'image')
   updateUser: async (req, res) => {
     try {
       const { id } = req.params;
       const { name, email } = req.body;
+
       if (!name || !email) {
         return res.status(400).json({ success: false, message: 'Please provide name and email' });
       }
 
-      const updated = await User.update(id, { name, email });
+      // If image uploaded, get path
+      const image_url = req.file ? `/uploads/${req.file.filename}` : null;
+
+      const updated = await User.update(id, { name, email, image_url });
+
       if (!updated) {
         return res.status(404).json({ success: false, message: 'User not found' });
       }
@@ -219,7 +242,6 @@ const userController = {
       if (!deleted) {
         return res.status(404).json({ success: false, message: 'User not found' });
       }
-
       res.json({ success: true, message: 'User deleted successfully' });
     } catch (err) {
       console.error('Delete user error:', err);
@@ -239,4 +261,5 @@ const userController = {
   },
 };
 
-module.exports = userController;
+// Export controller and multer upload separately
+module.exports = { userController, upload };
