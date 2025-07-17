@@ -13,6 +13,7 @@ import AllEvents from "./Private/page/AllEvents.jsx";
 import ForgotPassword from "./Authentication/page/ForgotPassword.jsx";
 import EditEvent from "./Private/page/EditEvent.jsx";
 import Profile from "./Private/page/Profile";
+import ResetPassword from "./Authentication/page/ResetPassword.jsx";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/edit-event/:id" element={<EditEvent />} />
           <Route path="/profile" element={<Profile />} />
+    <Route path="/reset-password/:token" element={<ResetPassword />} />
 
 
 

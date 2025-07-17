@@ -1,95 +1,100 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import EmptyHeader from "./EmptyHeader";
+import { Link } from "react-router-dom";
 import Footer from "../../public/page/Footer";
-import "../style/Login.css";
+import EmptyHeader from "./EmptyHeader";
+import "../style/Register.css"; // reuse styles, adjust if needed
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-const ResetPassword = () => {
-  const { token } = useParams();
-  const navigate = useNavigate();
+const ForgotPassword = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const [serverMessage, setServerMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [serverError, setServerError] = useState("");
 
   const onSubmit = async (data) => {
     setServerMessage("");
-    setErrorMessage("");
+    setServerError("");
     try {
-      const res = await fetch(`${API_URL}/users/reset-password/${token}`, {
+      const res = await fetch(`${API_URL}/users/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: data.password }),
+        body: JSON.stringify({ email: data.email }),
       });
 
       const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(result.error || "Reset failed");
+        throw new Error(result.error || "Failed to send reset email");
       }
 
-      setServerMessage("Password has been reset. You can now log in.");
-      setTimeout(() => navigate("/login"), 3000);
+      setServerMessage("Password reset email sent! Check your inbox.");
     } catch (err) {
-      setErrorMessage(err.message);
+      setServerError(err.message);
     }
   };
 
   return (
     <>
       <EmptyHeader />
-      <div className="login-container">
-        {/* Left image side */}
-        <div className="login-image-side">
-          <img
-            src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
-            alt="Event"
-          />
-        </div>
+      <div className="body-container">
+        <div className="register-container">
+          {/* Left image side */}
+          <div className="register-image-side">
+            <img
+              src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
+              alt="Forgot Password"
+            />
+          </div>
 
-        {/* Right form side */}
-        <div className="login-form-side">
-          <div className="login-top-text">SQUAD EVENT</div>
-          <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-            <h2>Reset Password</h2>
+          {/* Right form side */}
+          <div className="register-form-side">
+            <div className="register-top-text">SQUAD EVENT</div>
 
-            {/* Messages */}
-            {serverMessage && <div className="form-success">{serverMessage}</div>}
-            {errorMessage && <div className="form-error server-error">{errorMessage}</div>}
+            <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
+              <h2>Forgot Password</h2>
 
-            {/* Password input */}
-            <div className="form-group modern-input">
-              <label htmlFor="password">New Password</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter new password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: { value: 6, message: "Minimum 6 characters" },
-                })}
-                autoComplete="new-password"
-              />
-              {errors.password && <span className="form-error">{errors.password.message}</span>}
-            </div>
+              {serverMessage && (
+                <div className="form-success">{serverMessage}</div>
+              )}
+              {serverError && (
+                <div className="form-error server-error">{serverError}</div>
+              )}
 
-            {/* Submit button */}
-            <button type="submit" className="login-btn" disabled={isSubmitting}>
-              {isSubmitting ? "Resetting..." : "Reset Password"}
-            </button>
+              <div className="form-group modern-input">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+\.\S+$/,
+                      message: "Invalid email format",
+                    },
+                  })}
+                  autoComplete="username"
+                />
+                {errors.email && (
+                  <span className="form-error">{errors.email.message}</span>
+                )}
+              </div>
 
-            {/* Back to login */}
-            <div className="register-link">
-              Remembered your password? <Link to="/login">Back to Login</Link>
-            </div>
-          </form>
+              <button type="submit" className="register-btn" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Reset Email"}
+              </button>
+
+              <div className="login-link">
+                Remembered your password? <Link to="/login">Login</Link>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <Footer />
@@ -97,4 +102,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ForgotPassword;
