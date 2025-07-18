@@ -183,13 +183,21 @@ describe('User Controller', () => {
       expect(mockRes.json).toHaveBeenCalledWith({ error: 'Invalid or expired token' });
     });
     it('should return 400 for short password', async () => {
-      mockReq.params = { token: 'validtoken' };
+      // Simulate a valid token in resetTokens
+      const validToken = 'validtoken';
+      const userId = 1;
+      // Patch the controller's resetTokens for test
+      const controllerModule = require('../Controller/UserController');
+      controllerModule.resetTokens[userId] = { token: validToken, expires: Date.now() + 10000 };
+      
+      mockReq.params = { token: validToken };
       mockReq.body = { password: '123' };
-      // Simulate valid token in resetTokens
-      userController.__resetTokens = { 1: { token: 'validtoken', expires: Date.now() + 10000 } };
       await userController.resetPassword(mockReq, mockRes);
       expect(mockRes.status).toHaveBeenCalledWith(400);
       expect(mockRes.json).toHaveBeenCalledWith({ error: 'Password must be at least 6 characters' });
+      
+      // Clean up
+      delete controllerModule.resetTokens[userId];
     });
   });
 

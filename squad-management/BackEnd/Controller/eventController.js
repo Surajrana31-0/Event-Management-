@@ -1,11 +1,39 @@
 const Event = require('../Models/Events'); // Import the Event model for DB operations
+const validator = require('validator');
 
 // Create a new event
 exports.createEvent = async (req, res) => {
   try {
-    // Use Event model's create method to insert new event from request body data
+    const { eventName, date, time, organizer, location, type, description, price } = req.body;
+    // Input validation
+    if (!eventName || !validator.isLength(eventName, { min: 1, max: 100 }) ||
+        !validator.isAlphanumeric(eventName.replace(/[\s-]/g, '')) ||
+        /<script|SELECT|INSERT|DELETE|UPDATE|DROP|--|;|\bOR\b|\bAND\b|UNION|EXEC|EXECUTE|CREATE|ALTER|TRUNCATE|'|"|`/i.test(eventName)) {
+      return res.status(400).json({ error: 'Invalid event name' });
+    }
+    if (!date || !validator.isISO8601(date)) {
+      return res.status(400).json({ error: 'Invalid date format' });
+    }
+    if (!time || !/^\d{2}:\d{2}$/.test(time)) {
+      return res.status(400).json({ error: 'Invalid time format' });
+    }
+    if (!organizer || !validator.isLength(organizer, { min: 1, max: 100 })) {
+      return res.status(400).json({ error: 'Invalid organizer' });
+    }
+    if (!location || !validator.isLength(location, { min: 1, max: 100 })) {
+      return res.status(400).json({ error: 'Invalid location' });
+    }
+    if (!type || !validator.isLength(type, { min: 1, max: 100 })) {
+      return res.status(400).json({ error: 'Invalid type' });
+    }
+    if (!description || !validator.isLength(description, { min: 1, max: 1000 })) {
+      return res.status(400).json({ error: 'Invalid description' });
+    }
+    if (price === undefined || !validator.isFloat(String(price))) {
+      return res.status(400).json({ error: 'Invalid price' });
+    }
+    // If all validations pass, create the event
     const event = await Event.create(req.body);
-    // On success, respond with status 201 (Created) and JSON containing success flag and created event
     res.status(201).json({ success: true, event });
   } catch (err) {
     // Log any error to the console

@@ -6,8 +6,8 @@ describe('Security Tests', () => {
     const res = await request(app)
       .post('/api/events')
       .send({
-        eventName: "' OR 1=1 --",
-        date: '2024-06-01',
+        eventName: "Test'; DROP TABLE Events; --",
+        date: '2025-07-19',
         time: '19:00',
         organizer: 'Org',
         location: 'Hall',
@@ -16,6 +16,7 @@ describe('Security Tests', () => {
         price: 10.0,
       });
     expect(res.status).toBeGreaterThanOrEqual(400);
+    expect(res.body).toHaveProperty('error');
   });
 
   it('should prevent XSS attacks on event creation', async () => {
@@ -23,7 +24,7 @@ describe('Security Tests', () => {
       .post('/api/events')
       .send({
         eventName: "<script>alert('XSS')</script>",
-        date: '2024-06-01',
+        date: '2025-07-19',
         time: '19:00',
         organizer: 'Org',
         location: 'Hall',
@@ -32,6 +33,7 @@ describe('Security Tests', () => {
         price: 10.0,
       });
     expect(res.status).toBeGreaterThanOrEqual(400);
+    expect(res.body).toHaveProperty('error');
   });
 
   it('should return 404 for unknown routes', async () => {

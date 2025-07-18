@@ -129,7 +129,7 @@ describe('Event Controller', () => {
 
   // Test 7: Handle server error on createEvent
   it('should handle server error on createEvent', async () => {
-    const req = { body: {} };
+    const req = { body: { eventName: 'ValidName', date: '2024-06-01', time: '19:00', organizer: 'Org', location: 'Hall', type: 'Music', description: 'Desc', price: 10.0 } };
     const res = mockResponse();
     Event.create.mockRejectedValue(new Error('DB error'));
 
@@ -177,25 +177,21 @@ describe('Event Controller', () => {
 
   // Test 11: Prevent SQL injection on event creation (simulate validation failure)
   it('should handle SQL injection attempt on event creation', async () => {
-    const req = { body: { eventName: "Test'; DROP TABLE Events; --", date: '2025-07-19', price: 10.0 } };
+    const req = { body: { eventName: "Test'; DROP TABLE Events; --", date: '2025-07-19', time: '19:00', organizer: 'Org', location: 'Hall', type: 'Music', description: 'Hacked', price: 10.0 } };
     const res = mockResponse();
-    Event.create.mockImplementation(() => { throw new Error('Invalid input'); });
-
+    // No need to mock Event.create, validation should fail first
     await eventController.createEvent(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(500); // Controller returns 500 on error
-    expect(res.json).toHaveBeenCalledWith({ success: false, error: 'Server error' });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Invalid event name' });
   });
 
   // Test 12: Prevent XSS on event creation (simulate validation failure)
   it('should handle XSS attempt on event creation', async () => {
-    const req = { body: { eventName: "<script>alert('XSS')</script>", date: '2025-07-19', price: 10.0 } };
+    const req = { body: { eventName: "<script>alert('XSS')</script>", date: '2025-07-19', time: '19:00', organizer: 'Org', location: 'Hall', type: 'Music', description: 'XSS Test', price: 10.0 } };
     const res = mockResponse();
-    Event.create.mockImplementation(() => { throw new Error('Invalid input'); });
-
+    // No need to mock Event.create, validation should fail first
     await eventController.createEvent(req, res);
-
-    expect(res.status).toHaveBeenCalledWith(500); // Controller returns 500 on error
-    expect(res.json).toHaveBeenCalledWith({ success: false, error: 'Server error' });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Invalid event name' });
   });
 }); 

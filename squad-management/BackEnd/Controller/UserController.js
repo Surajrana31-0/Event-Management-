@@ -311,4 +311,4 @@ updateUser: async (req, res) => {
 };
 
 // Export both controller object and multer upload middleware separately
-module.exports = { userController, upload };
+module.exports = { userController, upload, resetTokens };
