@@ -65,3 +65,47 @@
   cursor: pointer;
   font-weight: bold;
 }
+
+/* For devices 480px and below, including 320px wide phones */
+@media (max-width: 480px) {
+  .events-tabs-section {
+    padding: 10px;
+  }
+
+  .events-section-title {
+    font-size: 1.4rem;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .events-cards-container {
+    flex-direction: column;
+    margin-left: 0;
+    gap: 15px;
+  }
+
+  .event-card {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .event-card-body {
+    padding: 12px;
+  }
+
+  .event-card-title {
+    font-size: 1.1rem;
+  }
+
+  .event-card-info {
+    font-size: 0.9rem;
+  }
+
+  .event-card-btn {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+}

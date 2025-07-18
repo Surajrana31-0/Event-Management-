@@ -38,7 +38,7 @@ const Footer = () => (
         />
         <button type="submit" className="newsletter-btn">Subscribe</button>
       </form>
-     
+      
     </div>
   </footer>
 );

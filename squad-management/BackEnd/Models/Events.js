@@ -53,46 +53,55 @@ class Event {
     }
   }
   
-static async delete(id) {
-  try {
-    const result = await pool.query(
-      `DELETE FROM events WHERE id = $1 RETURNING *`,
-      [id]
-    );
-    // result.rows will contain deleted rows (should be 1 or 0)
-    return result;
-  } catch (error) {
-    console.error('Error deleting event:', error);
-    throw error;
-  }
-}
-
-  static async update(id, data) {
-    const {
-      event_name, date, time, organizer, location, type, description, price
-    } = data;
+  // Delete an event by id
+  static async delete(id) {
     try {
       const result = await pool.query(
-        `UPDATE events SET
-          event_name = $1,
-          date = $2,
-          time = $3,
-          organizer = $4,
-          location = $5,
-          type = $6,
-          description = $7,
-          price = $8,
-          updated_at = CURRENT_TIMESTAMP
-        WHERE id = $9
-        RETURNING *`,
-        [event_name, date, time, organizer, location, type, description, price, id]
+        `DELETE FROM events WHERE id = $1 RETURNING *`,
+        [id]
       );
-      return result.rows[0];
+      return result;
     } catch (error) {
-      console.error('Error updating event:', error);
+      console.error('Error deleting event:', error);
       throw error;
     }
   }
+
+  // Update an event by id
+  static async update(id, data) {
+  const {
+    event_name,
+    date,
+    time,
+    location,
+    organizer,
+    type,
+    description,
+    price,
+  } = data;
+
+  try {
+    const result = await pool.query(
+      `UPDATE events SET
+        event_name = $1,
+        date = $2,
+        time = $3,
+        location = $4,
+        organizer = $5,
+        type = $6,
+        description = $7,
+        price = $8,
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = $9
+      RETURNING *`,
+      [event_name, date, time, location, organizer, type, description, price, id]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error updating event:', error);
+    throw error;
+  }
+}
 }
 
 module.exports = Event;
