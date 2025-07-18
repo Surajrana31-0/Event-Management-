@@ -13,7 +13,6 @@ const Header = () => {
         <nav className="header-nav">
           <a href="/login">Find Events</a>
           <a href="/login">Create Event</a>
-          <a href="/help-centre">Help Centre</a>
         
         </nav>
         <div className="header-auth">

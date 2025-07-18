@@ -14,7 +14,7 @@ class User {
         name VARCHAR(100) NOT NULL,                    -- User's name (required)
         email VARCHAR(100) UNIQUE NOT NULL,            -- Unique email (required)
         password VARCHAR(255) NOT NULL,                -- Hashed password
-        image_url VARCHAR(255) NOT NULL,                              -- Optional profile
+        image_url VARCHAR(255),                              -- Optional profile
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-filled creation time
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Auto-filled update time
         "isAdmin" BOOLEAN DEFAULT FALSE -- Admin flag (default false)
@@ -50,9 +50,9 @@ class User {
 
   // Find a user by their email address (used in login)
 static async findByEmail(email) {
-  const query = 'SELECT id, name, email, password, "isAdmin" FROM users WHERE email = $1';
+  const query = 'SELECT id, name, email, password,image_url, "isAdmin" FROM users WHERE email = $1';
   const result = await pool.query(query, [email]);
-  return result.rows[0];  // This row must include isAdmin
+  return result.rows[0];  
 }
 
 
@@ -82,30 +82,36 @@ static async findByEmail(email) {
   }
 
   // Update user details
-  static async update(id, { name, email, image_url = null }) {
-  let query, params;
+ static async update(id, fields) {
+  try {
+    const keys = Object.keys(fields);
+    if (keys.length === 0) return null; // Nothing to update
 
-  if (image_url !== null) {
-    query = `
-      UPDATE users 
-      SET name = $1, email = $2, image_url = $3, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $4
+    const values = Object.values(fields);
+
+    // Build SET clause dynamically: "name" = $1, "email" = $2, etc.
+    const setString = keys
+      .map((key, idx) => `"${key}" = $${idx + 1}`)
+      .join(', ');
+
+    const query = `
+      UPDATE users
+      SET ${setString}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = $${keys.length + 1}
       RETURNING id, name, email, image_url, updated_at
     `;
-    params = [name, email, image_url, id];
-  } else {
-    query = `
-      UPDATE users 
-      SET name = $1, email = $2, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $3
-      RETURNING id, name, email, image_url, updated_at
-    `;
-    params = [name, email, id];
+
+    const params = [...values, id];
+
+    const result = await pool.query(query, params);
+    if (result.rows.length === 0) return null;
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
   }
-
-  const result = await pool.query(query, params);
-  return result.rows[0];
 }
+
 
   // Delete a user by ID
   static async delete(id) {

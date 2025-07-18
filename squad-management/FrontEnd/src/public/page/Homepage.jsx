@@ -5,6 +5,8 @@ import "../style/Homepage.css";
 import CurrentEvents from "./CurrentEvents.jsx";
 import Testimony from "./Testimony.jsx";
 import Footer from "./Footer.jsx"; // Make sure Footer is imported
+import { Link } from "react-router-dom";
+
 
 // Add an image for each category
 const categories = [
@@ -18,7 +20,7 @@ const categories = [
   },
   {
     name: "Nightlife",
-    img: "https://images.unsplash.com/photo-1509228468518-c5eeecbff44a?auto=format&fit=crop&w=400&q=80"
+    img: "https://images.unsplash.com/photo-1506699311528-5be252edc26a?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     name: "Holiday",
@@ -30,7 +32,7 @@ const categories = [
   },
   {
     name: "Education",
-    img: "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80"
+    img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
   {
     name: "Gaming",
@@ -56,13 +58,16 @@ const Homepage = () => {
       <section className="categories-section">
         <h2 className="categories-title">Browse by Category</h2>
         <div className="categories-container">
-          {categories.map((cat) => (
-            <div className="category-card" key={cat.name}>
-              <img src={cat.img} alt={cat.name} className="category-img" />
-              <span>{cat.name}</span>
-            </div>
-          ))}
-        </div>
+  {categories.map((cat) => (
+    <Link to="/login" key={cat.name} className="category-link">
+      <div className="category-card">
+        <img src={cat.img} alt={cat.name} className="category-img" />
+        <span>{cat.name}</span>
+      </div>
+    </Link>
+  ))}
+</div>
+
       </section>
 
       <CurrentEvents />

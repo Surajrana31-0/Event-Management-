@@ -15,6 +15,13 @@ const Event = require('./Models/Events');  // <-- Import Event model
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+app.use(cors({
+  origin: 'http://localhost:5173', // your frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // if you use cookies/auth, else can skip
+}));
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -25,10 +32,7 @@ const limiter = rateLimit({
 // Middleware
 app.use(helmet());
 app.use(limiter);
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  credentials: true
-}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,7 +41,11 @@ app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
 
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', (req, res, next) => {
+  // This allows images to be loaded cross-origin from your frontend domain
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  next();
+}, express.static(path.join(__dirname, 'uploads')));
 
 
 // Health check route

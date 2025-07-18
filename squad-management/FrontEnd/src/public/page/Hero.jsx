@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import "../style/Hero.css";
 
+import event1 from '../../assets/radiohead.jpg';
+import event2 from '../../assets/band.jpeg';
+import event3 from '../../assets/live.jpeg';
 // Array of carousel images
-const images = [
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1515168833906-d2a3b82b3029?auto=format&fit=crop&w=800&q=80"
-];
+const images = [event1,event2,event3];
 
 const Hero = () => {
   // State to track the current image index
