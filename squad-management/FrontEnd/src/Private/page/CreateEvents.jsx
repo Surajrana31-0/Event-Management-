@@ -139,7 +139,7 @@ const CreateEvent = () => {
             {errors.description && <span className="form-error">{errors.description.message}</span>}
           </div>
           <div className="form-group">
-            <label htmlFor="price">Price (NPR)</label>
+            <label htmlFor="price">Price ($)</label>
             <input
               id="price"
               type="number"
